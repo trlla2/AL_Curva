@@ -4,6 +4,8 @@
 
 // Variables y objetos
 curva mi_primera_curva;
+boolean isBezier = false;
+
 
 // Clases
 class curva{
@@ -24,7 +26,7 @@ class curva{
     }
   }
   // Metodos
-  void calcular_coefs(){
+  void calcular_coefs_inerpolacio(){
     // Utilizando la matriz de interpolacion
     // que son 4 ecuaciones ... calculamos las Cs
     //  equacion para cada posicion(x,y)
@@ -41,6 +43,21 @@ class curva{
     coefs[3].x = -4.5*puntos_de_ctrl[0].x + 13.5*puntos_de_ctrl[1].x - 13.5*puntos_de_ctrl[2].x + 4.5*puntos_de_ctrl[3].x;
     coefs[3].y = -4.5*puntos_de_ctrl[0].y + 13.5*puntos_de_ctrl[1].y - 13.5*puntos_de_ctrl[2].y + 4.5*puntos_de_ctrl[3].y;
 
+  }
+  
+  void calcular_coefs_bezier(){
+    //C0 = P0;
+    coefs[0].x = puntos_de_ctrl[0].x;
+    coefs[0].y = puntos_de_ctrl[0].y;
+    //C1 = -3P0+3P1
+    coefs[1].x = -3*puntos_de_ctrl[0].x + 3 * puntos_de_ctrl[1].x;
+    coefs[1].y = -3*puntos_de_ctrl[0].y + 3 * puntos_de_ctrl[1].y;
+    //C2 =  3P0 -6P1 + 3P2 
+    coefs[2].x = 3*puntos_de_ctrl[0].x - 6*puntos_de_ctrl[1].x + 3*puntos_de_ctrl[2].x;
+    coefs[2].y = 3*puntos_de_ctrl[0].y - 6*puntos_de_ctrl[1].y + 3*puntos_de_ctrl[2].y;
+    //C3 = -P0 + 3P1 -3P2 + P3
+    coefs[3].x = -1*puntos_de_ctrl[0].x + 3*puntos_de_ctrl[1].x - 3*puntos_de_ctrl[2].x + puntos_de_ctrl[3].x;
+    coefs[3].y = -1*puntos_de_ctrl[0].y + 3*puntos_de_ctrl[1].y - 3*puntos_de_ctrl[2].y + puntos_de_ctrl[3].y;
   }
   
   void pintar_curva(){
@@ -75,14 +92,19 @@ void setup(){
   // Inventarnos 1 curva
   // Invertarnos sus puntos de control
   p = new PVector[4];
-  p[0] = new PVector(200,200); // Este es el punto de ctrl P0
-  p[1] = new PVector(300,300); // Y este es el P1
-  p[2] = new PVector(400,200); // El P2
-  p[3] = new PVector(500,300); // P3
+  p[0] = new PVector(200,400); // Este es el punto de ctrl P0
+  p[1] = new PVector(150,100); // Y este es el P1
+  p[2] = new PVector(550,100); // El P2
+  p[3] = new PVector(600,400); // P3
   // Llamamos al constructor de la curva
   mi_primera_curva = new curva(p);
   // Calculamos sus coeficientes
-  mi_primera_curva.calcular_coefs();
+  if(isBezier){
+    mi_primera_curva.calcular_coefs_bezier();
+  }
+  else{
+    mi_primera_curva.calcular_coefs_inerpolacio();
+  }
 }
 
 // El draw pinta la curva
