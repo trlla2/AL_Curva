@@ -25,7 +25,22 @@ class curva{
   }
   // Metodos
   void calcular_coefs(){
-    
+    // Utilizando la matriz de interpolacion
+    // que son 4 ecuaciones ... calculamos las Cs
+    //  equacion para cada posicion(x,y)
+    //C0 = P0;
+    coefs[0].x = puntos_de_ctrl[0].x;
+    coefs[0].y = puntos_de_ctrl[0].y;
+    //C1 = -5.5P0+0P1+4.5P2+P3
+    coefs[1].x = -5.5*puntos_de_ctrl[0].x + 9.0 * puntos_de_ctrl[1].x -4.5* puntos_de_ctrl[2].x + puntos_de_ctrl[3].x;
+    coefs[1].y = -5.5*puntos_de_ctrl[0].y + 9.0 * puntos_de_ctrl[1].y -4.5* puntos_de_ctrl[2].y + puntos_de_ctrl[3].y;
+    //C2 =  9P0 -22.5P1 + 18P2 -4.5P3
+    coefs[2].x = 9*puntos_de_ctrl[0].x - 22.5*puntos_de_ctrl[1].x + 18*puntos_de_ctrl[2].x -4.5*puntos_de_ctrl[3].x;
+    coefs[2].y = 9*puntos_de_ctrl[0].y - 22.5*puntos_de_ctrl[1].y + 18*puntos_de_ctrl[2].y -4.5*puntos_de_ctrl[3].y;
+    //C3 = -4.5P0+ 13.5P1 -13.5P2 +4.5P3
+    coefs[3].x = -4.5*puntos_de_ctrl[0].x + 13.5*puntos_de_ctrl[1].x - 13.5*puntos_de_ctrl[2].x + 4.5*puntos_de_ctrl[3].x;
+    coefs[3].y = -4.5*puntos_de_ctrl[0].y + 13.5*puntos_de_ctrl[1].y - 13.5*puntos_de_ctrl[2].y + 4.5*puntos_de_ctrl[3].y;
+
   }
   
   void pintar_curva(){
