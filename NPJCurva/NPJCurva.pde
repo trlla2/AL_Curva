@@ -7,6 +7,9 @@ curva mi_primera_curva;
 curva mi_segunda_curva;
 curva mi_tercera_curva;
 curva mi_quarta_curva;
+
+boolean isBezier = false;
+
 PVector PNJ;
 int estado_PNJ = 1; // 1 p(u), 2 q(u), 3 w(u), 4 k(u)
 float u_PNJ = 0.0f; // parametro u
@@ -47,6 +50,21 @@ class curva{
     coefs[3].x = -4.5*puntos_de_ctrl[0].x + 13.5*puntos_de_ctrl[1].x - 13.5*puntos_de_ctrl[2].x + 4.5*puntos_de_ctrl[3].x;
     coefs[3].y = -4.5*puntos_de_ctrl[0].y + 13.5*puntos_de_ctrl[1].y - 13.5*puntos_de_ctrl[2].y + 4.5*puntos_de_ctrl[3].y;
 
+  }
+  
+  void calcular_coefs_bezier(){
+    //C0 = P0;
+    coefs[0].x = puntos_de_ctrl[0].x;
+    coefs[0].y = puntos_de_ctrl[0].y;
+    //C1 = -3P0+3P1
+    coefs[1].x = -3*puntos_de_ctrl[0].x + 3 * puntos_de_ctrl[1].x;
+    coefs[1].y = -3*puntos_de_ctrl[0].y + 3 * puntos_de_ctrl[1].y;
+    //C2 =  3P0 -6P1 + 3P2 
+    coefs[2].x = 3*puntos_de_ctrl[0].x - 6*puntos_de_ctrl[1].x + 3*puntos_de_ctrl[2].x;
+    coefs[2].y = 3*puntos_de_ctrl[0].y - 6*puntos_de_ctrl[1].y + 3*puntos_de_ctrl[2].y;
+    //C3 = -P0 + 3P1 -3P2 + P3
+    coefs[3].x = -1*puntos_de_ctrl[0].x + 3*puntos_de_ctrl[1].x - 3*puntos_de_ctrl[2].x + puntos_de_ctrl[3].x;
+    coefs[3].y = -1*puntos_de_ctrl[0].y + 3*puntos_de_ctrl[1].y - 3*puntos_de_ctrl[2].y + puntos_de_ctrl[3].y;
   }
   
   void pintar_puntos_control(){
@@ -178,12 +196,18 @@ void setup(){
   mi_tercera_curva = new curva(w);
   mi_quarta_curva = new curva(k);
   // Calculamos sus coeficientes
-  
-  mi_primera_curva.calcular_coefs_inerpolacio();
-  mi_segunda_curva.calcular_coefs_inerpolacio();
-  mi_tercera_curva.calcular_coefs_inerpolacio();
-  mi_quarta_curva.calcular_coefs_inerpolacio();
-  
+  if(!isBezier){
+    mi_primera_curva.calcular_coefs_inerpolacio();
+    mi_segunda_curva.calcular_coefs_inerpolacio();
+    mi_tercera_curva.calcular_coefs_inerpolacio();
+    mi_quarta_curva.calcular_coefs_inerpolacio();
+  }
+  else{
+    mi_primera_curva.calcular_coefs_bezier();
+    mi_segunda_curva.calcular_coefs_bezier();
+    mi_tercera_curva.calcular_coefs_bezier();
+    mi_quarta_curva.calcular_coefs_bezier();
+  }
   // ---------------- PNJ
   PNJ = new PVector(0.0,0.0);
   
