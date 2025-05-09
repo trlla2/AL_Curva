@@ -8,7 +8,7 @@ curva mi_segunda_curva;
 curva mi_tercera_curva;
 curva mi_quarta_curva;
 
-boolean isBezier = false;
+boolean isBezier = true;
 
 PVector PNJ;
 int estado_PNJ = 1; // 1 p(u), 2 q(u), 3 w(u), 4 k(u)
